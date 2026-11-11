@@ -53,7 +53,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${dmSans.variable}`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body
         className="min-h-screen flex flex-col bg-[#fcf9f4] text-[#1c1c19] selection:bg-[#FDE68A] selection:text-[#1E2B4D]"
         suppressHydrationWarning

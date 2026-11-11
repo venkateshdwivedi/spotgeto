@@ -21,12 +21,12 @@ export default function HomePage() {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen flex flex-col bg-[#fcf9f4]">
+      <div className="min-h-screen flex flex-col bg-[#fcf9f4]" suppressHydrationWarning>
         {/* Navigation */}
         <Navbar onOpenBooking={() => handleOpenBooking()} />
 
         {/* Main Content with top offset for fixed navbar */}
-        <main className="flex-1 pt-20">
+        <main className="flex-1 pt-16">
           {/* Hero Section */}
           <HeroSection />
 

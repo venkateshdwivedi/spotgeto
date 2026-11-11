@@ -1,19 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  X,
-  Calendar,
-  Clock,
-  User,
-  Phone,
-  Sparkles,
-  CheckCircle2,
-  MessageCircle,
-  AlertCircle,
-  Loader2,
-  Users,
-} from "lucide-react";
 import { hubs } from "@/data/hubs";
 import { cities } from "@/data/cities";
 
@@ -77,14 +64,12 @@ export default function BookingModal({
   const activeHub = hubs.find((h) => h.slug === hubSlug) || hubs[0];
   const activeCity = cities.find((c) => c.slug === citySlug) || cities[0];
 
-  // Min date is today
   const todayStr = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Validation
     if (!fullName.trim()) {
       setError("Please enter your full name.");
       return;
@@ -143,26 +128,26 @@ export default function BookingModal({
     : "";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1E2B4D]/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
-      <div className="relative w-full max-w-xl bg-[#fcf9f4] rounded-3xl shadow-2xl border border-[#c6c6cf]/40 overflow-hidden my-8">
-        {/* Header Bar */}
-        <div className="bg-[#1E2B4D] text-white p-6 sm:p-7 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-[#fcf9f4] rounded-xl border border-[#e5e0d8] shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden my-8">
+        {/* Header Bar: Flat, clean */}
+        <div className="bg-[#1E2B4D] text-white p-6 relative">
           <button
+            type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 text-white/70 hover:text-white p-1 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+            className="absolute top-5 right-5 text-white/70 hover:text-white text-lg p-1 transition-colors"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5" />
+            ✕
           </button>
 
-          <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-semibold text-[#FFC72C] mb-2 uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
+          <span className="text-xs text-[#FFC72C] font-semibold mb-1 block">
             Hyperlocal Private Walk
-          </div>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold">
+          </span>
+          <h2 className="font-serif text-2xl font-semibold">
             {confirmedBooking ? "Booking Confirmed" : "Book Your Spotmate Walk"}
           </h2>
-          <p className="text-white/75 text-xs sm:text-sm mt-1">
+          <p className="text-white/70 text-xs sm:text-sm mt-1">
             {confirmedBooking
               ? "We are preparing your personalized walking journey."
               : "Hand-matched local guides. 100% private. Zero commission traps."}
@@ -170,96 +155,91 @@ export default function BookingModal({
         </div>
 
         {/* Content Area */}
-        <div className="p-6 sm:p-8 max-h-[80vh] overflow-y-auto">
+        <div className="p-6 sm:p-7 max-h-[80vh] overflow-y-auto">
           {confirmedBooking ? (
-            /* Confirmation Screen */
-            <div className="flex flex-col items-center text-center py-4">
-              <div className="w-16 h-16 rounded-2xl bg-amber-100 text-[#d97706] flex items-center justify-center mb-5 shadow-sm">
-                <CheckCircle2 className="w-10 h-10" />
-              </div>
+            /* Confirmation Screen: Text-only, clean, no icons */
+            <div className="flex flex-col items-center text-center py-2">
+              <span className="text-xs text-[#5f6368] font-semibold mb-2">
+                Booking Reference: {confirmedBooking.bookingId}
+              </span>
 
-              <div className="bg-[#f0ede9] text-[#1E2B4D] px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2">
-                Booking ID: {confirmedBooking.bookingId}
-              </div>
-
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E2B4D] mb-3">
-                You&apos;re All Set!
+              <h3 className="font-serif text-2xl font-semibold text-[#1E2B4D] mb-3">
+                You&apos;re All Set
               </h3>
 
-              <p className="text-sm sm:text-base text-[#45464e] max-w-md mb-6 leading-relaxed">
+              <p className="text-[15px] leading-[1.7] text-[#5f6368] max-w-md mb-6">
                 Booking confirmed! We&apos;ll match you with the best Spotmate and notify you within
-                <span className="font-bold text-[#1E2B4D]"> 15 minutes</span> via WhatsApp.
+                <span className="font-semibold text-[#1E2B4D]"> 15 minutes</span> via WhatsApp.
               </p>
 
               {/* Booking Summary Box */}
-              <div className="w-full bg-white rounded-2xl p-5 border border-[#c6c6cf]/30 shadow-xs text-left mb-6 space-y-3">
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#c6c6cf]/20">
-                  <span className="text-[#75777f]">Selected Hub</span>
-                  <span className="font-bold text-[#1E2B4D]">{confirmedBooking.hubName}</span>
+              <div className="w-full bg-white rounded-lg p-5 border border-[#e5e0d8] text-left mb-6 space-y-2.5">
+                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
+                  <span className="text-[#5f6368]">Selected Hub</span>
+                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.hubName}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#c6c6cf]/20">
-                  <span className="text-[#75777f]">City</span>
-                  <span className="font-bold text-[#1E2B4D]">{confirmedBooking.city}</span>
+                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
+                  <span className="text-[#5f6368]">City</span>
+                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.city}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#c6c6cf]/20">
-                  <span className="text-[#75777f]">Date &amp; Time</span>
-                  <span className="font-bold text-[#1E2B4D]">
+                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
+                  <span className="text-[#5f6368]">Date &amp; Time</span>
+                  <span className="font-semibold text-[#1E2B4D]">
                     {confirmedBooking.date} · {confirmedBooking.timeSlot.split(" ")[0]}
                   </span>
                 </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#c6c6cf]/20">
-                  <span className="text-[#75777f]">Traveler(s)</span>
-                  <span className="font-bold text-[#1E2B4D]">
+                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
+                  <span className="text-[#5f6368]">Traveler(s)</span>
+                  <span className="font-semibold text-[#1E2B4D]">
                     {confirmedBooking.name} ({confirmedBooking.travelers} Guests)
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-[#75777f]">WhatsApp Contact</span>
-                  <span className="font-bold text-[#1E2B4D]">{confirmedBooking.phone}</span>
+                  <span className="text-[#5f6368]">WhatsApp Contact</span>
+                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.phone}</span>
                 </div>
               </div>
 
-              {/* WhatsApp Action Button */}
+              {/* WhatsApp Action Button: Flat, no icons */}
               <a
                 href={`https://wa.me/${supportNumber}?text=${waShareText}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition-all text-sm sm:text-base mb-3 group"
+                className="w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm mb-3"
               >
-                <MessageCircle className="w-5 h-5 fill-white" />
-                <span>Chat with Spotgeto Concierge on WhatsApp</span>
+                Chat with Spotgeto Concierge on WhatsApp →
               </a>
 
-              <p className="text-[11px] text-[#75777f] mb-5">
-                Questions or immediate start? Our Varanasi team is active on WhatsApp 6:00 AM – 10:00 PM.
+              <p className="text-xs text-[#80868b] mb-4">
+                Questions? Our Varanasi team is active on WhatsApp 6:00 AM – 10:00 PM.
               </p>
 
               <button
+                type="button"
                 onClick={onClose}
-                className="text-xs font-bold text-[#1E2B4D] hover:text-[#d97706] transition-colors underline"
+                className="text-xs font-semibold text-[#1E2B4D] hover:underline"
               >
                 Done &amp; Close
               </button>
             </div>
           ) : (
-            /* Booking Form */
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            /* Booking Form: Clean, flat, no icons */
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
               {error && (
-                <div className="flex items-center gap-2 p-3.5 rounded-xl bg-red-50 text-red-800 text-xs border border-red-200">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-                  <span>{error}</span>
+                <div className="p-3 rounded-lg bg-red-50 text-red-800 text-xs border border-red-200">
+                  {error}
                 </div>
               )}
 
               {/* Hub Selector */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5">
-                  Select Hub / Walking Trail
+                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                  Walking Trail / Hub
                 </label>
                 <select
                   value={hubSlug}
                   onChange={(e) => setHubSlug(e.target.value)}
-                  className="w-full bg-[#f0ede9] border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-[#1E2B4D] focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                  className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                 >
                   {hubs.map((h) => (
                     <option key={h.slug} value={h.slug}>
@@ -267,17 +247,17 @@ export default function BookingModal({
                     </option>
                   ))}
                 </select>
-                <div className="mt-1 flex items-center justify-between text-[11px] text-[#75777f]">
-                  <span>Assigned Spotmate: {activeHub.spotmateType}</span>
-                  <span>Duration: {activeHub.duration}</span>
+                <div className="mt-1 flex items-center justify-between text-xs text-[#80868b]">
+                  <span>Spotmate: {activeHub.spotmateType}</span>
+                  <span>{activeHub.duration}</span>
                 </div>
               </div>
 
               {/* Date & Time Slot Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5 flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-[#d97706]" /> Walk Date
+                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                    Walk Date
                   </label>
                   <input
                     type="date"
@@ -285,18 +265,18 @@ export default function BookingModal({
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     required
-                    className="w-full bg-white border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2.5 text-sm text-[#1E2B4D] font-medium focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#d97706]" /> Time Slot
+                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                    Time Slot
                   </label>
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full bg-white border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2.5 text-sm text-[#1E2B4D] font-medium focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                   >
                     <option value="Morning (6:00 AM – 9:00 AM)">
                       Morning (6:00 AM – 9:00 AM) · Dawn Walk
@@ -305,17 +285,17 @@ export default function BookingModal({
                       Afternoon (2:00 PM – 5:00 PM)
                     </option>
                     <option value="Evening (5:00 PM – 8:00 PM)">
-                      Evening (5:00 PM – 8:00 PM) · Aarti &amp; Twilight
+                      Evening (5:00 PM – 8:00 PM) · Twilight Walk
                     </option>
                   </select>
                 </div>
               </div>
 
               {/* Full Name & Number of Guests */}
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
                 <div className="sm:col-span-8">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-[#d97706]" /> Full Name
+                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                    Full Name
                   </label>
                   <input
                     type="text"
@@ -323,18 +303,18 @@ export default function BookingModal({
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     required
-                    className="w-full bg-white border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2.5 text-sm text-[#1E2B4D] font-medium focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                   />
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5 flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-[#d97706]" /> Guests
+                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                    Guests
                   </label>
                   <select
                     value={travelers}
                     onChange={(e) => setTravelers(Number(e.target.value))}
-                    className="w-full bg-white border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2.5 text-sm text-[#1E2B4D] font-medium focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                   >
                     <option value={1}>1 Person</option>
                     <option value={2}>2 People</option>
@@ -346,75 +326,68 @@ export default function BookingModal({
                 </div>
               </div>
 
-              {/* Phone with +91 prefix */}
+              {/* WhatsApp Phone */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5 flex items-center gap-1.5">
-                  <Phone className="w-3.5 h-3.5 text-[#d97706]" /> WhatsApp Phone Number
+                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                  WhatsApp Phone Number
                 </label>
-                <div className="flex items-center rounded-xl border border-[#c6c6cf]/50 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-[#FFC72C] transition-all">
-                  <div className="bg-[#f0ede9] px-3.5 py-2.5 text-xs font-bold text-[#1E2B4D] border-r border-[#c6c6cf]/40 shrink-0">
-                    🇮🇳 +91
-                  </div>
+                <div className="flex items-center rounded-lg border border-[#e5e0d8] bg-white overflow-hidden">
+                  <span className="bg-[#f5f1ea] px-3 py-2 text-xs font-semibold text-[#1E2B4D] border-r border-[#e5e0d8]">
+                    +91
+                  </span>
                   <input
                     type="tel"
                     placeholder="98765 43210"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
-                    className="w-full px-3.5 py-2.5 text-sm text-[#1E2B4D] font-medium focus:outline-none"
+                    className="w-full px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none"
                   />
                 </div>
-                <span className="text-[11px] text-[#75777f] mt-1 block">
+                <span className="text-[11px] text-[#80868b] mt-1 block">
                   Your Spotmate will contact you directly on WhatsApp 15 mins after booking.
                 </span>
               </div>
 
               {/* Optional Notes */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#1E2B4D] mb-1.5">
-                  Special Interests / Notes (Optional)
+                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                  Special Interests or Notes (Optional)
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="e.g. Interested in street photography, traditional wrestling, vegetarian food restrictions..."
+                  placeholder="e.g. Photography, morning wrestling, vegetarian food..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-white border border-[#c6c6cf]/50 rounded-xl px-3.5 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:ring-2 focus:ring-[#FFC72C] transition-all"
+                  className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
                 />
               </div>
 
-              {/* Pricing breakdown banner */}
-              <div className="bg-[#f0ede9] rounded-xl p-3.5 flex items-center justify-between text-xs text-[#1E2B4D]">
+              {/* Price summary banner */}
+              <div className="bg-[#f5f1ea] rounded-lg p-3 flex items-center justify-between text-xs text-[#1E2B4D]">
                 <div>
-                  <span className="font-bold">Total Estimated:</span>{" "}
+                  <span className="font-semibold">Total:</span>{" "}
                   <span>
                     ₹{(activeHub.price * travelers).toLocaleString("en-IN")} ({travelers}{" "}
-                    {travelers === 1 ? "traveler" : "travelers"})
+                    {travelers === 1 ? "guest" : "guests"})
                   </span>
                 </div>
-                <span className="text-[11px] text-[#d97706] font-bold">
-                  Pay during walk · No advance deposit
+                <span className="text-[#8C3B24] font-medium">
+                  Pay during walk · No deposit
                 </span>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button: Flat, no shadow, no translate */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-1 bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-bold py-3.5 px-6 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 text-base disabled:opacity-75 cursor-pointer disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-70 cursor-pointer"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Confirming with Spotmate Network...</span>
-                  </>
-                ) : (
-                  <span>Confirm Booking</span>
-                )}
+                {loading ? "Confirming with Spotmate Network..." : "Confirm Booking"}
               </button>
 
-              <p className="text-[11px] text-center text-[#75777f]">
-                🔒 100% Private walk guarantee. Free cancellation anytime before start.
+              <p className="text-[11px] text-center text-[#80868b]">
+                100% Private walk guarantee &nbsp;·&nbsp; Free cancellation anytime before start
               </p>
             </form>
           )}
@@ -423,4 +396,3 @@ export default function BookingModal({
     </div>
   );
 }
-

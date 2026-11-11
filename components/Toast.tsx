@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { CheckCircle2, Info, X } from "lucide-react";
 
 interface Toast {
   id: string;
@@ -39,20 +38,16 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="pointer-events-auto flex items-start gap-3 p-4 rounded-xl bg-[#1E2B4D] text-white shadow-xl border border-white/10 transition-all duration-300 animate-in fade-in slide-in-from-bottom-3"
+            className="pointer-events-auto flex items-center justify-between gap-3 p-4 rounded-lg bg-[#1E2B4D] text-white shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-white/10"
           >
-            {toast.type === "success" ? (
-              <CheckCircle2 className="w-5 h-5 text-[#FFC72C] shrink-0 mt-0.5" />
-            ) : (
-              <Info className="w-5 h-5 text-[#FFC72C] shrink-0 mt-0.5" />
-            )}
-            <div className="flex-1 text-sm font-medium leading-snug">{toast.message}</div>
+            <div className="text-sm font-normal leading-snug">{toast.message}</div>
             <button
+              type="button"
               onClick={() => removeToast(toast.id)}
-              className="text-white/60 hover:text-white p-0.5 transition-colors"
+              className="text-white/60 hover:text-white text-xs p-1 transition-colors"
               aria-label="Close"
             >
-              <X className="w-4 h-4" />
+              ✕
             </button>
           </div>
         ))}
@@ -68,4 +63,3 @@ export function useToast() {
   }
   return context;
 }
-

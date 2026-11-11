@@ -2,19 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  MapPin,
-  ArrowRight,
-  Compass,
-  Sparkles,
-  ChevronRight,
-  Clock,
-  UserCheck,
-  Check,
-  Bell,
-  Building2,
-  Calendar,
-} from "lucide-react";
 import { City } from "@/data/cities";
 import { Hub } from "@/data/hubs";
 import Navbar from "@/components/Navbar";
@@ -56,82 +43,75 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
 
   const isComingSoon = city.status === "coming-soon" || hubs.length === 0;
 
-  // Filter hubs if filterTag is active
   const filteredHubs =
     filterTag === "all"
       ? hubs
       : hubs.filter((h) => h.tags.some((t) => t.toLowerCase().includes(filterTag.toLowerCase())));
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fcf9f4]">
+    <div className="min-h-screen flex flex-col bg-[#fcf9f4]" suppressHydrationWarning>
       <Navbar onOpenBooking={() => handleOpenBooking()} />
 
-      <main className="flex-1 pt-24 pb-20 px-5 lg:px-12 max-w-7xl mx-auto w-full">
-        {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-medium text-[#75777f] mb-6">
+      <main className="flex-1 pt-20 pb-20 px-6 lg:px-12 max-w-7xl mx-auto w-full text-left">
+        {/* Breadcrumb Navigation: text only */}
+        <nav className="flex items-center gap-2 text-xs text-[#5f6368] mb-6 font-normal">
           <Link href="/" className="hover:text-[#1E2B4D] transition-colors">
             Home
           </Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-[#1E2B4D] font-bold">Cities</span>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-[#d97706] font-bold">{city.name}</span>
+          <span>/</span>
+          <span>Cities</span>
+          <span>/</span>
+          <span className="text-[#1E2B4D] font-medium">{city.name}</span>
         </nav>
 
-        {/* City Header */}
-        <div className="mb-10 lg:mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#f0ede9] px-3.5 py-1 rounded-full text-xs font-bold text-[#1E2B4D] uppercase tracking-wider mb-3 border border-[#c6c6cf]/30">
-            <MapPin className="w-3.5 h-3.5 text-[#d97706]" />
+        {/* City Header: Left-aligned, no icons */}
+        <div className="mb-10 lg:mb-12">
+          <div className="inline-block text-xs font-semibold text-[#1E2B4D] bg-[#f5f1ea] px-3 py-1 rounded mb-3 border border-[#e5e0d8]">
             {city.statusLabel || (isComingSoon ? "Coming Soon" : "Now Live")}
             {!isComingSoon && ` · ${hubs.length} Curated Hubs`}
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-[52px] text-[#1E2B4D] font-bold tracking-tight mb-4">
+          <h1 className="font-serif text-4xl sm:text-5xl text-[#1E2B4D] font-bold tracking-[-0.03em] mb-4">
             Explore {city.name}
           </h1>
 
-          <p className="text-base sm:text-lg text-[#45464e] max-w-2xl leading-relaxed">
+          <p className="text-[17px] leading-[1.7] text-[#5f6368] max-w-2xl font-normal">
             {city.subtitle || city.tagline}
           </p>
         </div>
 
         {isComingSoon ? (
-          /* COMING SOON VIEW */
-          <div className="max-w-3xl mx-auto my-8">
-            <div className="bg-[#f0ede9] rounded-3xl p-8 sm:p-12 border border-[#c6c6cf]/40 shadow-sm text-center">
-              <div className="w-16 h-16 rounded-2xl bg-amber-100 text-[#d97706] flex items-center justify-center mx-auto mb-6 shadow-xs">
-                <Building2 className="w-8 h-8" />
-              </div>
-
-              <span className="text-xs uppercase tracking-widest text-[#d97706] font-bold block mb-2">
+          /* COMING SOON VIEW: Flat, no icons */
+          <div className="max-w-2xl text-left my-8">
+            <div className="bg-[#f5f1ea] rounded-xl p-8 border border-[#e5e0d8]">
+              <span className="text-xs font-semibold text-[#8C3B24] block mb-2">
                 Curating Local Spotmates
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#1E2B4D] mb-4">
+              <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1E2B4D] mb-4">
                 {city.name} is Launching Soon
               </h2>
 
-              <p className="text-base text-[#45464e] max-w-xl mx-auto mb-8 leading-relaxed">
+              <p className="text-[15px] leading-[1.7] text-[#5f6368] mb-8 font-normal">
                 We are actively vetting generational artisans, local historians, and neighborhood
                 experts in {city.name} to bring you slow, unscripted walking journeys.
               </p>
 
               {waitlistSubmitted ? (
-                <div className="bg-white rounded-2xl p-6 border border-[#c6c6cf]/30 max-w-md mx-auto mb-8">
-                  <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                  <p className="text-sm font-bold text-[#1E2B4D]">
+                <div className="bg-white rounded-lg p-5 border border-[#e5e0d8] mb-6">
+                  <p className="text-sm font-semibold text-[#1E2B4D]">
                     You&apos;re on the priority notification list!
                   </p>
-                  <p className="text-xs text-[#75777f] mt-1">
+                  <p className="text-xs text-[#5f6368] mt-1">
                     We&apos;ll send you an invite as soon as the first {city.name} walking hubs go live.
                   </p>
                 </div>
               ) : (
                 <form
                   onSubmit={handleWaitlistSubmit}
-                  className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 mb-8"
+                  className="flex flex-col sm:flex-row gap-3 mb-8"
                 >
-                  <div className="flex-1 flex items-center rounded-xl border border-[#c6c6cf]/60 bg-white overflow-hidden px-3.5 py-2.5">
-                    <span className="text-xs text-[#75777f] font-bold mr-2">🇮🇳 +91</span>
+                  <div className="flex-1 flex items-center rounded-lg border border-[#e5e0d8] bg-white px-3.5 py-2.5">
+                    <span className="text-xs text-[#5f6368] font-medium mr-2">+91</span>
                     <input
                       type="tel"
                       placeholder="WhatsApp phone number"
@@ -142,79 +122,71 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                   </div>
                   <button
                     type="submit"
-                    className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-bold text-sm px-6 py-3 rounded-xl shadow-xs transition-all whitespace-nowrap cursor-pointer"
+                    className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors whitespace-nowrap"
                   >
                     Notify Me
                   </button>
                 </form>
               )}
 
-              <div className="pt-6 border-t border-[#c6c6cf]/30">
-                <p className="text-xs text-[#75777f] mb-4">
+              <div className="pt-6 border-t border-[#e5e0d8]">
+                <p className="text-xs text-[#5f6368] mb-3">
                   Looking to travel today? Our full network of 4 hubs is live in Varanasi.
                 </p>
                 <Link
                   href="/city/varanasi"
-                  className="inline-flex items-center gap-2 bg-[#1E2B4D] text-[#FFC72C] font-bold text-sm px-6 py-3 rounded-xl hover:bg-[#2A3B66] transition-colors"
+                  className="text-sm font-semibold text-[#1E2B4D] hover:underline"
                 >
-                  <span>Explore Varanasi Hubs</span>
-                  <ArrowRight className="w-4 h-4" />
+                  Explore Varanasi Hubs →
                 </Link>
               </div>
             </div>
           </div>
         ) : (
-          /* LIVE HUBS VIEW */
+          /* LIVE HUBS VIEW: Clean, flat */
           <>
-            {/* First Time Recommendation Banner */}
+            {/* First Time Recommendation Banner: Solid #1E2B4D, no gradient, no blobs */}
             {recommendedHub && (
-              <div className="mb-12 bg-gradient-to-r from-[#1E2B4D] to-[#2A3B66] text-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-[#FFC72C]/10 rounded-full blur-3xl pointer-events-none"></div>
-
-                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="mb-12 bg-[#1E2B4D] text-white rounded-xl p-6 sm:p-8 border border-[#1E2B4D] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                   <div className="lg:col-span-8">
-                    <div className="inline-flex items-center gap-2 bg-white/10 px-3.5 py-1 rounded-full text-xs font-bold text-[#FFC72C] mb-3 uppercase tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5" />
+                    <span className="text-xs text-[#FFC72C] font-semibold mb-2 block">
                       First time in {city.name}? Start here →
-                    </div>
+                    </span>
 
-                    <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 text-white">
+                    <h2 className="font-serif text-2xl sm:text-3xl font-semibold mb-3 text-white">
                       {recommendedHub.name}
                     </h2>
 
-                    <p className="text-sm sm:text-base text-white/85 max-w-2xl mb-4 leading-relaxed">
+                    <p className="text-[15px] leading-[1.7] text-white/80 max-w-2xl mb-4 font-normal">
                       {recommendedHub.description} This dawn circuit offers the quintessential
                       initiation to Kashi: morning ragas across water, centuries-old mud akharas, and
                       sacred riverside banter.
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-white/70">
-                      <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg">
-                        <Clock className="w-3.5 h-3.5 text-[#FFC72C]" />
-                        {recommendedHub.duration}
-                      </span>
-                      <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-lg">
-                        <UserCheck className="w-3.5 h-3.5 text-[#FFC72C]" />
-                        Assigned: {recommendedHub.spotmateType}
-                      </span>
-                      <span className="font-bold text-[#FFC72C] text-sm">
+                      <span>{recommendedHub.duration}</span>
+                      <span>·</span>
+                      <span>Assigned: {recommendedHub.spotmateType}</span>
+                      <span>·</span>
+                      <span className="font-semibold text-[#FFC72C]">
                         ₹{recommendedHub.price.toLocaleString("en-IN")} / traveler
                       </span>
                     </div>
                   </div>
 
-                  <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
+                  <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-2.5 justify-end">
                     <Link
                       href={`/hub/${recommendedHub.slug}`}
-                      className="inline-flex items-center justify-center gap-2 bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-bold py-3.5 px-6 rounded-xl shadow-md transition-all text-sm group"
+                      className="text-center text-sm bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3 px-5 rounded-lg transition-colors"
                     >
-                      <span>View Hub Itinerary</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      View Hub Itinerary
                     </Link>
 
                     <button
+                      type="button"
                       onClick={() => handleOpenBooking(recommendedHub.slug)}
-                      className="inline-flex items-center justify-center gap-2 bg-white/15 hover:bg-white/20 text-white font-bold py-3 px-6 rounded-xl transition-colors text-sm"
+                      className="text-center text-sm bg-white/10 hover:bg-white/15 text-white font-medium py-2.5 px-5 rounded-lg transition-colors"
                     >
                       Book This Walk Directly
                     </button>
@@ -223,68 +195,72 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
               </div>
             )}
 
-            {/* Filter Pills */}
+            {/* Filter Buttons */}
             <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
               <div className="flex flex-wrap items-center gap-2">
                 <button
+                  type="button"
                   onClick={() => setFilterTag("all")}
-                  className={`text-xs font-bold px-4 py-2 rounded-xl transition-all ${
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
                     filterTag === "all"
-                      ? "bg-[#1E2B4D] text-white shadow-sm"
-                      : "bg-[#f0ede9] text-[#45464e] hover:bg-[#e5e2dd]"
+                      ? "bg-[#1E2B4D] text-white"
+                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
                   }`}
                 >
                   All Hubs ({hubs.length})
                 </button>
                 <button
+                  type="button"
                   onClick={() => setFilterTag("dawn")}
-                  className={`text-xs font-bold px-4 py-2 rounded-xl transition-all ${
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
                     filterTag === "dawn"
-                      ? "bg-[#1E2B4D] text-white shadow-sm"
-                      : "bg-[#f0ede9] text-[#45464e] hover:bg-[#e5e2dd]"
+                      ? "bg-[#1E2B4D] text-white"
+                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
                   }`}
                 >
                   Dawn &amp; Morning
                 </button>
                 <button
+                  type="button"
                   onClick={() => setFilterTag("alleys")}
-                  className={`text-xs font-bold px-4 py-2 rounded-xl transition-all ${
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
                     filterTag === "alleys"
-                      ? "bg-[#1E2B4D] text-white shadow-sm"
-                      : "bg-[#f0ede9] text-[#45464e] hover:bg-[#e5e2dd]"
+                      ? "bg-[#1E2B4D] text-white"
+                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
                   }`}
                 >
                   Labyrinth Galis
                 </button>
                 <button
+                  type="button"
                   onClick={() => setFilterTag("sacred")}
-                  className={`text-xs font-bold px-4 py-2 rounded-xl transition-all ${
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
                     filterTag === "sacred"
-                      ? "bg-[#1E2B4D] text-white shadow-sm"
-                      : "bg-[#f0ede9] text-[#45464e] hover:bg-[#e5e2dd]"
+                      ? "bg-[#1E2B4D] text-white"
+                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
                   }`}
                 >
                   Sacred Rituals
                 </button>
                 <button
+                  type="button"
                   onClick={() => setFilterTag("archaeology")}
-                  className={`text-xs font-bold px-4 py-2 rounded-xl transition-all ${
+                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
                     filterTag === "archaeology"
-                      ? "bg-[#1E2B4D] text-white shadow-sm"
-                      : "bg-[#f0ede9] text-[#45464e] hover:bg-[#e5e2dd]"
+                      ? "bg-[#1E2B4D] text-white"
+                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
                   }`}
                 >
                   Archaeological Forests
                 </button>
               </div>
 
-              <span className="text-xs text-[#75777f] font-medium">
-                Showing {filteredHubs.length} curated walking{" "}
-                {filteredHubs.length === 1 ? "zone" : "zones"}
+              <span className="text-xs text-[#80868b] font-normal">
+                Showing {filteredHubs.length} curated walking {filteredHubs.length === 1 ? "zone" : "zones"}
               </span>
             </div>
 
-            {/* Grid of Hub Cards (3-4 per city) */}
+            {/* Grid of Hub Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
               {filteredHubs.map((hub) => (
                 <HubCard
@@ -296,14 +272,14 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
             </div>
 
             {/* Bottom City Lore / Quote Callout */}
-            <div className="p-8 rounded-2xl bg-[#f0ede9] border border-[#c6c6cf]/30 text-center max-w-3xl mx-auto">
-              <span className="text-xs uppercase tracking-widest text-[#d97706] font-bold block mb-2">
+            <div className="p-8 rounded-xl bg-[#f5f1ea] border border-[#e5e0d8] text-left max-w-3xl">
+              <span className="text-xs font-semibold text-[#8C3B24] block mb-2">
                 The Spirit of {city.name}
               </span>
-              <p className="font-serif italic text-base sm:text-lg text-[#1E2B4D] leading-relaxed mb-4">
+              <p className="font-serif italic text-base sm:text-lg text-[#1E2B4D] leading-relaxed mb-3">
                 &ldquo;{city.accentQuote || "To walk here with someone who knows the stones is to step across thousands of years in a single morning."}&rdquo;
               </p>
-              <p className="text-xs text-[#75777f]">
+              <p className="text-xs text-[#5f6368] font-normal">
                 Every walk is 100% private. No megaphone crowds. No forced commission souvenir stalls.
               </p>
             </div>
