@@ -8,7 +8,7 @@ interface BookingRequestBody {
   hubSlug?: string;
   city: string;
   date: string;
-  timeSlot: string;
+  timeSlot?: string;
   travelers?: number;
   notes?: string;
 }
@@ -17,14 +17,23 @@ export async function POST(req: NextRequest) {
   try {
     const body: BookingRequestBody = await req.json();
 
-    const { name, phone, hubName, city, date, timeSlot, travelers = 1, notes = "" } = body;
+    const {
+      name,
+      phone,
+      hubName,
+      city,
+      date,
+      timeSlot = "Morning (Flexible)",
+      travelers = 1,
+      notes = "",
+    } = body;
 
     // Validate required fields
-    if (!name || !phone || !hubName || !city || !date || !timeSlot) {
+    if (!name || !phone || !hubName || !city || !date) {
       return NextResponse.json(
         {
           success: false,
-          error: "Missing required booking fields (name, phone, hubName, city, date, timeSlot).",
+          error: "Missing required booking fields (name, phone, hubName, city, date).",
         },
         { status: 400 }
       );

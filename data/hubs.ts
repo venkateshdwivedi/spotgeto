@@ -40,154 +40,127 @@ export const hubs: Hub[] = [
   {
     slug: "assi-southern-akharas",
     city: "varanasi",
-    name: "Assi & Southern Akharas",
+    name: "Assi & Southern Ghats",
     spotmateType: "Local Expert",
     spotmateTypeSlug: "local-expert",
     spotmateBadge: "Generational Local Expert",
     spotmateReason:
-      "The southern ghats and ancient mud akharas are living traditions passed down through centuries. Your Spotmate was born and raised in these exact galis, has trained in traditional akharas, and knows the sadhus, boatmen, and wrestling masters by name. Only a lifelong resident can open the heavy teak doors of these private brotherhoods.",
-    description: "Morning ragas, ancient wrestling sanctuaries, and riverside intellectual chai circles.",
-    teaser: "Hidden courtyards, dawn wrestling pits, the chai spot no guidebook mentions...",
-    destinations: ["Assi Ghat", "Tulsi Ghat", "Chet Singh Ghat Fortress", "Akhara Goswami Tulsidas", "Anandmayi Ashram"],
-    duration: "2.5 Hours",
-    bestTime: "Dawn (6:00 AM – 8:30 AM)",
+      "The southern ghats are living neighborhoods, not tourist corridors. Your Spotmate grew up in these lanes, knows the temple priests and chai sellers by name, and can walk you into spaces no guidebook will ever list.",
+    description:
+      "From the ancient Lolark Kund stepwell to the riverside temples that most visitors walk right past — this is the Varanasi that locals actually live in.",
+    teaser:
+      "A stepwell older than the Mughal empire, the temple where Tulsidas wrote the Ramcharitmanas, and the chai spot where BHU professors have argued for decades...",
+    destinations: [
+      "Assi Ghat",
+      "Lolark Kund",
+      "Tulsi Manas Mandir",
+      "Sankat Mochan Hanuman Temple",
+      "Durga Kund & Durga Temple",
+    ],
+    duration: "2.5 – 3 Hours",
+    bestTime: "Morning (6:30 AM – 9:30 AM)",
     price: 1200,
     featured: true,
-    tags: ["Dawn Walk", "Akharas", "Ghat Life", "Riverside Heritage"],
+    tags: ["Morning Walk", "Temples", "Ghat Life", "Heritage"],
     highlights: [
       {
-        title: "The 400-Year Consecrated Akhara",
-        teaser: "A 400-year-old courtyard where pehlwans train at dawn in consecrated red earth with mustard oil and wooden maces.",
+        title: "Lolark Kund — The Forgotten Stepwell",
+        teaser:
+          "A deep stone stepwell sacred to the Sun, older than most monuments in the city. Locals come here for rituals you won't find in any travel guide.",
       },
       {
-        title: "Tulsidas's Riverside Writing Alcove",
-        teaser: "The quiet wooden balcony overlooking the bend of Mother Ganga where the Ramcharitmanas was originally inked.",
+        title: "Tulsi Manas Mandir",
+        teaser:
+          "The marble temple built on the exact spot where Goswami Tulsidas composed the Ramcharitmanas — the walls are inscribed with the entire epic.",
       },
       {
-        title: "Riverside Intellectual Chai Circle",
-        teaser: "A legendary chai stand under a sacred banyan tree where poets, scholars, and musicians have gathered daily for 60 years.",
+        title: "Sankat Mochan — The Monkey Temple",
+        teaser:
+          "Varanasi's most beloved Hanuman temple, founded by Tulsidas himself. Famous for its Tuesday and Saturday evening aarti and its resident langurs.",
       },
       {
-        title: "Chet Singh's Fortress Secret Gate",
-        teaser: "The hidden water-gate beneath the 18th-century stone fortress where Maharaja Chet Singh escaped Warren Hastings.",
+        title: "Durga Temple & Durga Kund",
+        teaser:
+          "The striking red-stone Durga temple with its ancient water tank. Locals call it the Monkey Temple too — for different reasons than Sankat Mochan.",
       },
     ],
     hiddenGems:
-      "Subterranean mud akharas hidden behind unmarked wooden gates, an unmapped riverside Sanskrit library founded in 1928, and secluded stone step-wells where morning mist lingers undisturbed.",
+      "Your Spotmate knows spots between these landmarks that aren't on any map — quiet temple courtyards, a particular chai stall, viewpoints only residents use. Some things are better discovered in person.",
     localFood:
-      "Clay-pot Pehlwan lassi crowned with thick rabdi, piping-hot hing kachoris with spiced pumpkin aloo, and wood-fired lemon mint chai.",
+      "The kachori-sabzi breakfast spots near Assi that BHU students swear by, and a lassi place that's been running since before your parents were born.",
     souvenirs:
-      "Traditional akhara red earth herbal clay bars, hand-hammered brass water lotas from southern metalworkers, and tulsi bead japa malas strung by ghat artisans.",
+      "Your Spotmate can point you to genuine local finds — but the best souvenirs from this walk are the stories and the photos from places tourists never reach.",
     guideProfile: {
-      name: "Abhishek Pandey",
-      badge: "Assi Ghat Native & Cultural Storyteller",
-      badgeType: "expert",
-      bio: "Born steps from Assi Ghat, Abhishek has spent 32 years immersed in the morning rituals, music traditions, and akhara lore of South Varanasi.",
+      name: "Your Spotmate",
+      badge: "Assi Ghat Local Expert",
+      badgeType: "expert" as const,
+      bio: "Born and raised in the southern ghat neighborhoods. Knows every temple priest, every shortcut, and every hidden courtyard between Assi and Durga Kund.",
       experienceYears: 8,
-      languages: ["English", "Hindi", "Bhojpuri"],
+      languages: ["English", "Hindi"],
       neighborhood: "Assi Ghat, Shivala",
     },
   },
   {
     slug: "old-kashi-gallis",
     city: "varanasi",
-    name: "Old Kashi Gallis & Golden Sanctum",
+    name: "Old Kashi — Lanes, Temples & Bazaars",
     spotmateType: "Local Expert",
     spotmateTypeSlug: "local-expert",
-    spotmateBadge: "Labyrinth Heritage Expert",
+    spotmateBadge: "Old City Heritage Expert",
     spotmateReason:
-      "The narrow lanes of old Kashi are best explored with someone who grew up here. Built thousands of years ago as an intricate defensive maze, GPS signals drop within meters. Your Spotmate is a local expert who knows every hidden turn, century-old dead ends, secret courtyard passages, and generational guild shops.",
-    description: "Serpentine alleyways, ancient stone archways, generational perfume distillers, and clandestine sweet makers.",
-    teaser: "Hidden courtyards behind 300-year-old carved doors, the 5th-generation brass cauldron, and secret rooftop angles...",
-    destinations: ["Thatheri Bazaar", "Kachori Gali", "Vishwanath Gali", "Dal Mandi", "Gopal Mandir Gali"],
+      "The narrow lanes of old Kashi were built as a defensive labyrinth — GPS drops within meters. Your Spotmate grew up here, knows every turn, every dead end, every shortcut through private courtyards that connects two lanes no map shows.",
+    description:
+      "The beating heart of Varanasi — serpentine lanes barely wide enough for two people, ancient temples wedged between houses, brass workers hammering the same way their great-grandfathers did, and food that hasn't changed in generations.",
+    teaser:
+      "Lanes so narrow the buildings almost touch overhead, a temple hidden inside someone's house, and the kachori that people cross the city for...",
+    destinations: [
+      "Kashi Vishwanath Corridor",
+      "Annapurna Devi Temple",
+      "Kashi Karvat Temple",
+      "Thatheri Bazaar (UNESCO brass-workers' lane)",
+      "Kachori Gali",
+    ],
     duration: "3 Hours",
     bestTime: "Morning (7:30 AM – 10:30 AM) or Afternoon (3:30 PM – 6:30 PM)",
     price: 1400,
     featured: false,
-    tags: ["Ancient Alleys", "Generational Crafts", "Sacred Shrines", "Culinary Secrets"],
+    tags: ["Ancient Alleys", "Temples", "Street Food", "Bazaars"],
     highlights: [
       {
-        title: "600-Year Courtyard Shrine",
-        teaser: "An unmarked 600-year-old stone courtyard temple where priests still chant morning Vedic hymns by earthen oil lamp.",
+        title: "Kashi Vishwanath — Beyond the Corridor",
+        teaser:
+          "Everyone visits the main temple. Your Spotmate shows you the lanes around it — the older temples, the quiet corners, the stories the corridor renovation buried.",
       },
       {
-        title: "Generational Brass Beaters' Alley",
-        teaser: "A fifth-generation brass beaters' enclave where hammer blows create rhythmic counterpoints against the temple bells.",
+        title: "Annapurna Devi Temple",
+        teaser:
+          "The goddess of food and nourishment. A stunning gold-plated temple most tourists walk past because they don't know it's there.",
       },
       {
-        title: "Secret Rooftop Sanctuary",
-        teaser: "A private residential rooftop vantage point with an uninterrupted view across the glittering golden shikharas.",
+        title: "Kashi Karvat — The Narrow Lane Temple",
+        teaser:
+          "Tucked inside one of Kashi's narrowest lanes. This ancient temple has a significance most visitors never learn about — your Spotmate will explain.",
       },
       {
-        title: "The Deg-Distilled Clay Perfumer",
-        teaser: "An antique copper alembic workshop distilling true Mitti Attar — bottling the fragrance of rain meeting parched summer soil.",
+        title: "Thatheri Bazaar — UNESCO Heritage Brass Lane",
+        teaser:
+          "A living UNESCO-recognized heritage lane where brass artisans still work with techniques unchanged for generations. The sound of hammering is the soundtrack of old Kashi.",
       },
     ],
     hiddenGems:
-      "Courtyards where sacred cows nap peacefully beside 19th-century wall frescoes, private family temples with emerald shivalingams, and subterranean passages once used by royal messengers.",
+      "There are temples inside private homes, rooftop views that look over the golden spires, and shortcuts through the maze that only someone born here would know. Your Spotmate reveals a few — but not everything goes on a website.",
     localFood:
-      "Airy winter Malaiyo foam garnished with saffron and crushed pistachios, crisp desi ghee kachoris, and authentic melt-in-the-mouth Lal Peda.",
+      "Kachori Gali's legendary breakfast, tamatar chaat from a stall with no signboard, and the jalebi place that has a queue every morning for a reason.",
     souvenirs:
-      "Natural Mitti Attar (baked earth fragrance) distilled in ancient copper pots, genuine Gulabi Meenakari enameled silver pendants, and hand-carved sandalwood figurines.",
+      "The brass work from Thatheri Bazaar is genuine and UNESCO-recognized. Your Spotmate knows which shops are generational artisans and which are resellers.",
     guideProfile: {
-      name: "Divyanshu Sharma",
-      badge: "5th-Generation Kashi Galli Resident",
-      badgeType: "expert",
-      bio: "Grew up in Dal Mandi alleyway. Divyanshu can navigate all 400 labyrinth turns with his eyes closed and knows every shopkeeper by family lineage.",
+      name: "Your Spotmate",
+      badge: "Old Kashi Lane Expert",
+      badgeType: "expert" as const,
+      bio: "Grew up inside the labyrinth. Can navigate every turn of the old city with eyes closed and knows every shopkeeper by family name.",
       experienceYears: 10,
       languages: ["English", "Hindi"],
-      neighborhood: "Thatheri Bazaar, Chowk",
-    },
-  },
-  {
-    slug: "manikarnika-riverfront",
-    city: "varanasi",
-    name: "Manikarnika & Riverfront Heritage",
-    spotmateType: "Local Expert & Cultural Custodian",
-    spotmateTypeSlug: "local-expert",
-    spotmateBadge: "Riverfront Cultural Custodian",
-    spotmateReason:
-      "The eternal cremation grounds of Manikarnika and Harishchandra Ghat are profoundly sacred, delicate spaces of life, death, and philosophical release. Exploring here requires deep cultural sensitivity, dignity, and insider etiquette. Your Spotmate comes from a traditional riverfront family with ancestral ties to the ghats, ensuring your visit is deeply contemplative and respectful without intruding.",
-    description: "The eternal sacred fire burning for 3,000 years, submerged temples, and deep philosophical truths of Moksha.",
-    teaser: "The 3,000-year-old unbroken fire, quiet contemplation terraces, and the real philosophy of liberation...",
-    destinations: ["Manikarnika Ghat", "Harishchandra Ghat", "Scindia Ghat (Leaning Temple)", "Panchganga Ghat", "Mir Ghat"],
-    duration: "2.5 Hours",
-    bestTime: "Late Afternoon / Sunset (4:30 PM – 7:00 PM)",
-    price: 1500,
-    featured: false,
-    tags: ["Sacred Fire", "Philosophy & Moksha", "Submerged Temples", "Twilight Ghats"],
-    highlights: [
-      {
-        title: "The 3,000-Year Eternal Flame",
-        teaser: "The sacred eternal fire kept burning by the Dom Raja family continuously for centuries without a single hour extinguished.",
-      },
-      {
-        title: "The Leaning Submerged Sanctum",
-        teaser: "The 150-year-old Ratneshwar Mahadev temple gracefully leaning at a 9-degree angle with its lower half embraced by the river.",
-      },
-      {
-        title: "The High Terrace of Contemplation",
-        teaser: "An elevated quiet stone veranda overlooking the funeral ghats where philosophers discuss the cycle of Samsara with dignity.",
-      },
-      {
-        title: "Panchganga's Five-River Confluence",
-        teaser: "The peaceful wide stone steps where five mystical subterranean rivers meet, bathed in twilight brass lamp reflections.",
-      },
-    ],
-    hiddenGems:
-      "A quiet stone veranda perched high above the river smoke where scholars reflect, 16th-century stone inscriptions detailing royal pilgrimages, and hidden stepwells leading straight to holy subterranean springs.",
-    localFood:
-      "Spiced Banarasi Tamatar Chaat served in miniature clay handis topped with crunchy namkeen and ghee, followed by royal Maghai Paan.",
-    souvenirs:
-      "Authentic five-faced Rudraksha beads authenticated by scholars, hand-pressed pure mustard oil from ancient oil-presses, and terracotta river diyas.",
-    guideProfile: {
-      name: "Kailash Mishra",
-      badge: "Ghat Philosopher & Vedic Scholar",
-      badgeType: "expert",
-      bio: "Whose family has lived along the riverfront for four generations. Kailash teaches the profound philosophical foundations of Kashi's sacred geography.",
-      experienceYears: 12,
-      languages: ["English", "Hindi", "Sanskrit"],
-      neighborhood: "Scindia Ghat, Manikarnika",
+      neighborhood: "Chowk, Vishwanath Gali",
     },
   },
   {
@@ -232,10 +205,10 @@ export const hubs: Hub[] = [
     souvenirs:
       "Hand-painted silk Thangka tapestries created by resident monastic artists, authentic Bodhi seed prayer beads, and medicinal Himalayan herbal incense.",
     guideProfile: {
-      name: "Dr. Ananya Roy",
+      name: "Your Spotmate",
       badge: "Certified Archaeological Historian & Guide",
-      badgeType: "historian",
-      bio: "Doctorate in Mauryan Archaeological History with over 12 years of accredited guiding. Ananya brings 2,500 years of Buddhist philosophy vividly to life.",
+      badgeType: "historian" as const,
+      bio: "A certified professional guide with formal archaeological and historical expertise, holding official government accreditation for Sarnath's heritage site.",
       experienceYears: 12,
       languages: ["English", "Hindi", "French"],
       neighborhood: "Sarnath Heritage Zone",
@@ -250,4 +223,3 @@ export function getHubBySlug(slug: string): Hub | undefined {
 export function getHubsByCity(citySlug: string): Hub[] {
   return hubs.filter((hub) => hub.city.toLowerCase() === citySlug.toLowerCase());
 }
-

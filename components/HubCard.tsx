@@ -9,50 +9,31 @@ interface HubCardProps {
 
 export default function HubCard({ hub, onBookNow }: HubCardProps) {
   return (
-    <div className="bg-white rounded-xl border border-[#e5e0d8] shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between overflow-hidden">
-      <div>
-        <div className="p-6 sm:p-7 pb-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span className="text-xs font-semibold text-[#1E2B4D] bg-[#f5f1ea] px-3 py-1 rounded border border-[#e5e0d8]">
-              {hub.spotmateType}
-            </span>
+    <div className="bg-white rounded-xl border border-[#e5e0d8] shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between overflow-hidden text-left">
+      <div className="p-6 sm:p-7 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <span className="text-xs font-semibold text-[#1E2B4D] bg-[#f5f1ea] px-3 py-1 rounded border border-[#e5e0d8]">
+            {hub.spotmateType}
+          </span>
 
-            <span className="text-sm font-semibold text-[#1E2B4D]">
-              from ₹{hub.price.toLocaleString("en-IN")}
-            </span>
-          </div>
+          <span className="text-sm font-semibold text-[#1E2B4D]">
+            from ₹{hub.price.toLocaleString("en-IN")}
+          </span>
+        </div>
 
-          <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#1E2B4D] mb-2 hover:text-[#d97706] transition-colors">
-            <Link href={`/hub/${hub.slug}`}>{hub.name}</Link>
-          </h3>
+        <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#1E2B4D] mb-2 hover:text-[#d97706] transition-colors">
+          <Link href={`/hub/${hub.slug}`}>{hub.name}</Link>
+        </h3>
 
-          <p className="text-[15px] leading-[1.7] text-[#5f6368] mb-4">
-            {hub.description}
+        <p className="text-[15px] leading-[1.7] text-[#5f6368] mb-4 font-normal">
+          {hub.description}
+        </p>
+
+        {/* Italic Teaser Line */}
+        <div className="p-3.5 rounded-lg bg-[#f5f1ea] border-l-2 border-[#1E2B4D] mb-2">
+          <p className="italic text-xs text-[#1E2B4D] leading-relaxed">
+            &ldquo;{hub.teaser}&rdquo;
           </p>
-
-          {/* Destinations inside this Hub */}
-          <div className="mb-4">
-            <span className="text-xs font-medium text-[#80868b] block mb-1.5">
-              Covers Key Landmarks:
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {hub.destinations.map((dest, idx) => (
-                <span
-                  key={idx}
-                  className="bg-[#f5f1ea] text-[#1E2B4D] text-xs font-normal px-2.5 py-1 rounded border border-[#e5e0d8]"
-                >
-                  {dest}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Italic Teaser Line */}
-          <div className="p-3.5 rounded-lg bg-[#f5f1ea] border-l-2 border-[#1E2B4D] mb-2">
-            <p className="italic text-xs text-[#1E2B4D] leading-relaxed">
-              &ldquo;{hub.teaser}&rdquo;
-            </p>
-          </div>
         </div>
       </div>
 
@@ -67,7 +48,7 @@ export default function HubCard({ hub, onBookNow }: HubCardProps) {
             <button
               type="button"
               onClick={() => onBookNow(hub.slug)}
-              className="text-xs font-semibold text-[#1E2B4D] hover:text-[#d97706] py-1.5 px-3 rounded hover:bg-white transition-colors"
+              className="text-xs font-semibold text-[#1E2B4D] hover:text-[#d97706] py-1.5 px-3 rounded hover:bg-white transition-colors cursor-pointer"
             >
               Quick Book
             </button>

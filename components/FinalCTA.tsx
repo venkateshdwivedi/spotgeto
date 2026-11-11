@@ -39,7 +39,7 @@ export default function FinalCTA({ onOpenBooking }: FinalCTAProps) {
           </div>
 
           <div className="mt-8 text-sm text-[#5f6368] font-normal">
-            Free cancellation up to 24h prior &nbsp;·&nbsp; 100% private walks only
+            100% private walks only
           </div>
         </div>
       </div>

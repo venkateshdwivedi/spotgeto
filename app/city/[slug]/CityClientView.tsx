@@ -21,7 +21,6 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
   const [selectedHubSlug, setSelectedHubSlug] = useState<string>(
     recommendedHub ? recommendedHub.slug : hubs[0]?.slug || ""
   );
-  const [filterTag, setFilterTag] = useState<string>("all");
   const [waitlistPhone, setWaitlistPhone] = useState("");
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
   const { showToast } = useToast();
@@ -43,11 +42,6 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
 
   const isComingSoon = city.status === "coming-soon" || hubs.length === 0;
 
-  const filteredHubs =
-    filterTag === "all"
-      ? hubs
-      : hubs.filter((h) => h.tags.some((t) => t.toLowerCase().includes(filterTag.toLowerCase())));
-
   return (
     <div className="min-h-screen flex flex-col bg-[#fcf9f4]" suppressHydrationWarning>
       <Navbar onOpenBooking={() => handleOpenBooking()} />
@@ -65,7 +59,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
         </nav>
 
         {/* City Header: Left-aligned, no icons */}
-        <div className="mb-10 lg:mb-12">
+        <div className="mb-10 lg:mb-12 text-left">
           <div className="inline-block text-xs font-semibold text-[#1E2B4D] bg-[#f5f1ea] px-3 py-1 rounded mb-3 border border-[#e5e0d8]">
             {city.statusLabel || (isComingSoon ? "Coming Soon" : "Now Live")}
             {!isComingSoon && ` · ${hubs.length} Curated Hubs`}
@@ -75,7 +69,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
             Explore {city.name}
           </h1>
 
-          <p className="text-[17px] leading-[1.7] text-[#5f6368] max-w-2xl font-normal">
+          <p className="text-[15px] leading-[1.7] text-[#5f6368] max-w-2xl font-normal">
             {city.subtitle || city.tagline}
           </p>
         </div>
@@ -122,7 +116,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                   </div>
                   <button
                     type="submit"
-                    className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors whitespace-nowrap"
+                    className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors whitespace-nowrap cursor-pointer"
                   >
                     Notify Me
                   </button>
@@ -131,7 +125,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
 
               <div className="pt-6 border-t border-[#e5e0d8]">
                 <p className="text-xs text-[#5f6368] mb-3">
-                  Looking to travel today? Our full network of 4 hubs is live in Varanasi.
+                  Looking to travel today? Our full network of 3 hubs is live in Varanasi.
                 </p>
                 <Link
                   href="/city/varanasi"
@@ -147,9 +141,9 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
           <>
             {/* First Time Recommendation Banner: Solid #1E2B4D, no gradient, no blobs */}
             {recommendedHub && (
-              <div className="mb-12 bg-[#1E2B4D] text-white rounded-xl p-6 sm:p-8 border border-[#1E2B4D] shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+              <div className="mb-12 bg-[#1E2B4D] text-white rounded-xl p-6 sm:p-8 border border-[#1E2B4D] shadow-[0_1px_3px_rgba(0,0,0,0.06)] text-left">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                  <div className="lg:col-span-8">
+                  <div className="lg:col-span-8 text-left">
                     <span className="text-xs text-[#FFC72C] font-semibold mb-2 block">
                       First time in {city.name}? Start here →
                     </span>
@@ -159,9 +153,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                     </h2>
 
                     <p className="text-[15px] leading-[1.7] text-white/80 max-w-2xl mb-4 font-normal">
-                      {recommendedHub.description} This dawn circuit offers the quintessential
-                      initiation to Kashi: morning ragas across water, centuries-old mud akharas, and
-                      sacred riverside banter.
+                      {recommendedHub.description}
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 text-xs text-white/70">
@@ -186,7 +178,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                     <button
                       type="button"
                       onClick={() => handleOpenBooking(recommendedHub.slug)}
-                      className="text-center text-sm bg-white/10 hover:bg-white/15 text-white font-medium py-2.5 px-5 rounded-lg transition-colors"
+                      className="text-center text-sm bg-white/10 hover:bg-white/15 text-white font-medium py-2.5 px-5 rounded-lg transition-colors cursor-pointer"
                     >
                       Book This Walk Directly
                     </button>
@@ -195,74 +187,9 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
               </div>
             )}
 
-            {/* Filter Buttons */}
-            <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setFilterTag("all")}
-                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
-                    filterTag === "all"
-                      ? "bg-[#1E2B4D] text-white"
-                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
-                  }`}
-                >
-                  All Hubs ({hubs.length})
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterTag("dawn")}
-                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
-                    filterTag === "dawn"
-                      ? "bg-[#1E2B4D] text-white"
-                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
-                  }`}
-                >
-                  Dawn &amp; Morning
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterTag("alleys")}
-                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
-                    filterTag === "alleys"
-                      ? "bg-[#1E2B4D] text-white"
-                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
-                  }`}
-                >
-                  Labyrinth Galis
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterTag("sacred")}
-                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
-                    filterTag === "sacred"
-                      ? "bg-[#1E2B4D] text-white"
-                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
-                  }`}
-                >
-                  Sacred Rituals
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFilterTag("archaeology")}
-                  className={`text-xs font-semibold px-3.5 py-1.5 rounded transition-colors ${
-                    filterTag === "archaeology"
-                      ? "bg-[#1E2B4D] text-white"
-                      : "bg-[#f5f1ea] text-[#5f6368] hover:bg-[#eae4da]"
-                  }`}
-                >
-                  Archaeological Forests
-                </button>
-              </div>
-
-              <span className="text-xs text-[#80868b] font-normal">
-                Showing {filteredHubs.length} curated walking {filteredHubs.length === 1 ? "zone" : "zones"}
-              </span>
-            </div>
-
-            {/* Grid of Hub Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-              {filteredHubs.map((hub) => (
+            {/* Grid of Hub Cards: All hubs shown, no filters */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {hubs.map((hub) => (
                 <HubCard
                   key={hub.slug}
                   hub={hub}
@@ -279,7 +206,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
               <p className="font-serif italic text-base sm:text-lg text-[#1E2B4D] leading-relaxed mb-3">
                 &ldquo;{city.accentQuote || "To walk here with someone who knows the stones is to step across thousands of years in a single morning."}&rdquo;
               </p>
-              <p className="text-xs text-[#5f6368] font-normal">
+              <p className="text-[15px] leading-[1.7] text-[#5f6368] font-normal">
                 Every walk is 100% private. No megaphone crowds. No forced commission souvenir stalls.
               </p>
             </div>

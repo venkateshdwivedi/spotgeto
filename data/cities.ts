@@ -23,12 +23,11 @@ export const cities: City[] = [
     subtitle: "84 historic ghats, timeless labyrinthine galis, and 3,000 years of unbroken living heritage.",
     description:
       "Varanasi is not merely a destination; it is a sensory universe. From the sacred resonance of dawn ragas at Assi to the secretive silk-weaving galis of Dal Mandi, Varanasi reveals its real soul only through the eyes of those who call its ancient stones home.",
-    activeHubsCount: 4,
+    activeHubsCount: 3,
     recommendedHub: "assi-southern-akharas",
     hubs: [
       "assi-southern-akharas",
       "old-kashi-gallis",
-      "manikarnika-riverfront",
       "sarnath-sanctuary",
     ],
     icon: "location_city",

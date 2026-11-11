@@ -18,8 +18,6 @@ interface BookingResponseData {
   hubName: string;
   city: string;
   date: string;
-  timeSlot: string;
-  travelers: number;
 }
 
 export default function BookingModal({
@@ -31,17 +29,15 @@ export default function BookingModal({
   const [citySlug, setCitySlug] = useState(defaultCitySlug);
   const [hubSlug, setHubSlug] = useState(defaultHubSlug);
   const [date, setDate] = useState("");
-  const [timeSlot, setTimeSlot] = useState("Morning (6:00 AM – 9:00 AM)");
+  const [minDate, setMinDate] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [travelers, setTravelers] = useState(2);
-  const [notes, setNotes] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmedBooking, setConfirmedBooking] = useState<BookingResponseData | null>(null);
 
-  // Sync default props when modal opens
+  // Sync default props and calculate minimum date when modal opens (inside useEffect to avoid SSR prerender time skew)
   useEffect(() => {
     if (isOpen) {
       if (defaultHubSlug) setHubSlug(defaultHubSlug);
@@ -49,13 +45,14 @@ export default function BookingModal({
       setConfirmedBooking(null);
       setError(null);
 
-      // Default date to tomorrow if not set
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
       const yyyy = tomorrow.getFullYear();
       const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
       const dd = String(tomorrow.getDate()).padStart(2, "0");
-      setDate(`${yyyy}-${mm}-${dd}`);
+      const minDateStr = `${yyyy}-${mm}-${dd}`;
+      setMinDate(minDateStr);
+      setDate((prev) => prev || minDateStr);
     }
   }, [isOpen, defaultHubSlug, defaultCitySlug]);
 
@@ -63,8 +60,6 @@ export default function BookingModal({
 
   const activeHub = hubs.find((h) => h.slug === hubSlug) || hubs[0];
   const activeCity = cities.find((c) => c.slug === citySlug) || cities[0];
-
-  const todayStr = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +71,7 @@ export default function BookingModal({
     }
     const cleanPhone = phone.trim().replace(/\D/g, "");
     if (cleanPhone.length < 10) {
-      setError("Please enter a valid 10-digit phone number.");
+      setError("Please enter a valid 10-digit WhatsApp number.");
       return;
     }
     if (!date) {
@@ -99,9 +94,6 @@ export default function BookingModal({
           hubSlug: activeHub.slug,
           city: activeCity.name,
           date,
-          timeSlot,
-          travelers,
-          notes: notes.trim(),
         }),
       });
 
@@ -123,7 +115,7 @@ export default function BookingModal({
   const supportNumber = process.env.NEXT_PUBLIC_WHATSAPP_SUPPORT_PHONE || "919876543210";
   const waShareText = confirmedBooking
     ? encodeURIComponent(
-        `Hello Spotgeto! I have booked a walk with a Spotmate.\n\nBooking ID: ${confirmedBooking.bookingId}\nName: ${confirmedBooking.name}\nHub: ${confirmedBooking.hubName} (${confirmedBooking.city})\nDate: ${confirmedBooking.date}\nTime Slot: ${confirmedBooking.timeSlot}\nGuests: ${confirmedBooking.travelers}\n\nCould you please connect me with my assigned Spotmate?`
+        `Hello Spotgeto! I have booked a walk.\n\nBooking ID: ${confirmedBooking.bookingId}\nName: ${confirmedBooking.name}\nHub: ${confirmedBooking.hubName} (${confirmedBooking.city})\nDate: ${confirmedBooking.date}\n\nPlease connect me with my Spotmate!`
       )
     : "";
 
@@ -135,17 +127,17 @@ export default function BookingModal({
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-5 right-5 text-white/70 hover:text-white text-lg p-1 transition-colors"
+            className="absolute top-5 right-5 text-white/70 hover:text-white text-lg p-1 transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             ✕
           </button>
 
           <span className="text-xs text-[#FFC72C] font-semibold mb-1 block">
-            Hyperlocal Private Walk
+            {activeHub.name} · {activeCity.name}
           </span>
           <h2 className="font-serif text-2xl font-semibold">
-            {confirmedBooking ? "Booking Confirmed" : "Book Your Spotmate Walk"}
+            {confirmedBooking ? "Booking Confirmed" : "Book Your Walk"}
           </h2>
           <p className="text-white/70 text-xs sm:text-sm mt-1">
             {confirmedBooking
@@ -155,75 +147,54 @@ export default function BookingModal({
         </div>
 
         {/* Content Area */}
-        <div className="p-6 sm:p-7 max-h-[80vh] overflow-y-auto">
+        <div className="p-6 sm:p-7 max-h-[80vh] overflow-y-auto text-left">
           {confirmedBooking ? (
-            /* Confirmation Screen: Text-only, clean, no icons */
-            <div className="flex flex-col items-center text-center py-2">
-              <span className="text-xs text-[#5f6368] font-semibold mb-2">
-                Booking Reference: {confirmedBooking.bookingId}
-              </span>
-
+            /* Confirmation Screen: Simple, clean text */
+            <div className="flex flex-col items-start text-left py-2">
               <h3 className="font-serif text-2xl font-semibold text-[#1E2B4D] mb-3">
-                You&apos;re All Set
+                Your booking is confirmed!
               </h3>
 
-              <p className="text-[15px] leading-[1.7] text-[#5f6368] max-w-md mb-6">
-                Booking confirmed! We&apos;ll match you with the best Spotmate and notify you within
-                <span className="font-semibold text-[#1E2B4D]"> 15 minutes</span> via WhatsApp.
+              <p className="text-[15px] leading-[1.7] text-[#5f6368] mb-6 font-normal">
+                We&apos;ll match you with the best available Spotmate and reach out on WhatsApp within 15–20 minutes.
               </p>
 
-              {/* Booking Summary Box */}
-              <div className="w-full bg-white rounded-lg p-5 border border-[#e5e0d8] text-left mb-6 space-y-2.5">
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
-                  <span className="text-[#5f6368]">Selected Hub</span>
+              {/* Simple summary box */}
+              <div className="w-full bg-white rounded-lg p-5 border border-[#e5e0d8] text-left mb-6 space-y-2 text-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5f6368]">Hub:</span>
                   <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.hubName}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
-                  <span className="text-[#5f6368]">City</span>
-                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.city}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5f6368]">Date:</span>
+                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.date}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
-                  <span className="text-[#5f6368]">Date &amp; Time</span>
-                  <span className="font-semibold text-[#1E2B4D]">
-                    {confirmedBooking.date} · {confirmedBooking.timeSlot.split(" ")[0]}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-xs pb-2 border-b border-[#e5e0d8]">
-                  <span className="text-[#5f6368]">Traveler(s)</span>
-                  <span className="font-semibold text-[#1E2B4D]">
-                    {confirmedBooking.name} ({confirmedBooking.travelers} Guests)
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-[#5f6368]">WhatsApp Contact</span>
-                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.phone}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#5f6368]">Name:</span>
+                  <span className="font-semibold text-[#1E2B4D]">{confirmedBooking.name}</span>
                 </div>
               </div>
 
-              {/* WhatsApp Action Button: Flat, no icons */}
+              {/* WhatsApp Action Button */}
               <a
                 href={`https://wa.me/${supportNumber}?text=${waShareText}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm mb-3"
+                className="w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm mb-3 cursor-pointer"
               >
-                Chat with Spotgeto Concierge on WhatsApp →
+                Chat with us on WhatsApp →
               </a>
-
-              <p className="text-xs text-[#80868b] mb-4">
-                Questions? Our Varanasi team is active on WhatsApp 6:00 AM – 10:00 PM.
-              </p>
 
               <button
                 type="button"
                 onClick={onClose}
-                className="text-xs font-semibold text-[#1E2B4D] hover:underline"
+                className="w-full text-center text-xs font-semibold text-[#1E2B4D] hover:underline pt-2 cursor-pointer"
               >
                 Done &amp; Close
               </button>
             </div>
           ) : (
-            /* Booking Form: Clean, flat, no icons */
+            /* Booking Form: Only 3 fields */
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
               {error && (
                 <div className="p-3 rounded-lg bg-red-50 text-red-800 text-xs border border-red-200">
@@ -231,102 +202,37 @@ export default function BookingModal({
                 </div>
               )}
 
-              {/* Hub Selector */}
+              {/* 1. Walk Date */}
               <div>
                 <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                  Walking Trail / Hub
+                  Walk Date
                 </label>
-                <select
-                  value={hubSlug}
-                  onChange={(e) => setHubSlug(e.target.value)}
+                <input
+                  type="date"
+                  min={minDate || undefined}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
                   className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                >
-                  {hubs.map((h) => (
-                    <option key={h.slug} value={h.slug}>
-                      {h.name} — from ₹{h.price.toLocaleString("en-IN")}/person
-                    </option>
-                  ))}
-                </select>
-                <div className="mt-1 flex items-center justify-between text-xs text-[#80868b]">
-                  <span>Spotmate: {activeHub.spotmateType}</span>
-                  <span>{activeHub.duration}</span>
-                </div>
+                />
               </div>
 
-              {/* Date & Time Slot Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div>
-                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                    Walk Date
-                  </label>
-                  <input
-                    type="date"
-                    min={todayStr}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                    Time Slot
-                  </label>
-                  <select
-                    value={timeSlot}
-                    onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                  >
-                    <option value="Morning (6:00 AM – 9:00 AM)">
-                      Morning (6:00 AM – 9:00 AM) · Dawn Walk
-                    </option>
-                    <option value="Afternoon (2:00 PM – 5:00 PM)">
-                      Afternoon (2:00 PM – 5:00 PM)
-                    </option>
-                    <option value="Evening (5:00 PM – 8:00 PM)">
-                      Evening (5:00 PM – 8:00 PM) · Twilight Walk
-                    </option>
-                  </select>
-                </div>
+              {/* 2. Full Name */}
+              <div>
+                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Rahul Sharma"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
+                />
               </div>
 
-              {/* Full Name & Number of Guests */}
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
-                <div className="sm:col-span-8">
-                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Rahul Sharma"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    required
-                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                  />
-                </div>
-
-                <div className="sm:col-span-4">
-                  <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                    Guests
-                  </label>
-                  <select
-                    value={travelers}
-                    onChange={(e) => setTravelers(Number(e.target.value))}
-                    className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                  >
-                    <option value={1}>1 Person</option>
-                    <option value={2}>2 People</option>
-                    <option value={3}>3 People</option>
-                    <option value={4}>4 People</option>
-                    <option value={5}>5 People</option>
-                    <option value={6}>6+ (Private Group)</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* WhatsApp Phone */}
+              {/* 3. WhatsApp Phone Number */}
               <div>
                 <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
                   WhatsApp Phone Number
@@ -345,50 +251,18 @@ export default function BookingModal({
                   />
                 </div>
                 <span className="text-[11px] text-[#80868b] mt-1 block">
-                  Your Spotmate will contact you directly on WhatsApp 15 mins after booking.
+                  We will reach out on WhatsApp within 15–20 minutes to confirm your walk details.
                 </span>
               </div>
 
-              {/* Optional Notes */}
-              <div>
-                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
-                  Special Interests or Notes (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="e.g. Photography, morning wrestling, vegetarian food..."
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D]"
-                />
-              </div>
-
-              {/* Price summary banner */}
-              <div className="bg-[#f5f1ea] rounded-lg p-3 flex items-center justify-between text-xs text-[#1E2B4D]">
-                <div>
-                  <span className="font-semibold">Total:</span>{" "}
-                  <span>
-                    ₹{(activeHub.price * travelers).toLocaleString("en-IN")} ({travelers}{" "}
-                    {travelers === 1 ? "guest" : "guests"})
-                  </span>
-                </div>
-                <span className="text-[#8C3B24] font-medium">
-                  Pay during walk · No deposit
-                </span>
-              </div>
-
-              {/* Submit Button: Flat, no shadow, no translate */}
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-70 cursor-pointer"
+                className="w-full bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm sm:text-base disabled:opacity-70 cursor-pointer mt-2"
               >
-                {loading ? "Confirming with Spotmate Network..." : "Confirm Booking"}
+                {loading ? "Booking..." : "Book Now"}
               </button>
-
-              <p className="text-[11px] text-center text-[#80868b]">
-                100% Private walk guarantee &nbsp;·&nbsp; Free cancellation anytime before start
-              </p>
             </form>
           )}
         </div>
