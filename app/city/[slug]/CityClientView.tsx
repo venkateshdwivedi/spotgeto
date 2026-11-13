@@ -159,10 +159,8 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                     <div className="flex flex-wrap items-center gap-4 text-xs text-white/70">
                       <span>{recommendedHub.duration}</span>
                       <span>·</span>
-                      <span>Assigned: {recommendedHub.spotmateType}</span>
-                      <span>·</span>
                       <span className="font-semibold text-[#FFC72C]">
-                        ₹{recommendedHub.price.toLocaleString("en-IN")} / traveler
+                        ₹{recommendedHub.price.toLocaleString("en-IN")} total
                       </span>
                     </div>
                   </div>
@@ -180,7 +178,7 @@ function CityViewContent({ city, hubs, recommendedHub }: CityClientViewProps) {
                       onClick={() => handleOpenBooking(recommendedHub.slug)}
                       className="text-center text-sm bg-white/10 hover:bg-white/15 text-white font-medium py-2.5 px-5 rounded-lg transition-colors cursor-pointer"
                     >
-                      Book This Walk Directly
+                      Book Spotmate Directly
                     </button>
                   </div>
                 </div>

@@ -112,13 +112,6 @@ export default function BookingModal({
     }
   };
 
-  const supportNumber = process.env.NEXT_PUBLIC_WHATSAPP_SUPPORT_PHONE || "919876543210";
-  const waShareText = confirmedBooking
-    ? encodeURIComponent(
-        `Hello Spotgeto! I have booked a walk.\n\nBooking ID: ${confirmedBooking.bookingId}\nName: ${confirmedBooking.name}\nHub: ${confirmedBooking.hubName} (${confirmedBooking.city})\nDate: ${confirmedBooking.date}\n\nPlease connect me with my Spotmate!`
-      )
-    : "";
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 overflow-y-auto">
       <div className="relative w-full max-w-lg bg-[#fcf9f4] rounded-xl border border-[#e5e0d8] shadow-[0_4px_20px_rgba(0,0,0,0.08)] overflow-hidden my-8">
@@ -137,7 +130,7 @@ export default function BookingModal({
             {activeHub.name} · {activeCity.name}
           </span>
           <h2 className="font-serif text-2xl font-semibold">
-            {confirmedBooking ? "Booking Confirmed" : "Book Your Walk"}
+            {confirmedBooking ? "Booking Confirmed" : "Book Spotmate"}
           </h2>
           <p className="text-white/70 text-xs sm:text-sm mt-1">
             {confirmedBooking
@@ -175,26 +168,17 @@ export default function BookingModal({
                 </div>
               </div>
 
-              {/* WhatsApp Action Button */}
-              <a
-                href={`https://wa.me/${supportNumber}?text=${waShareText}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm mb-3 cursor-pointer"
-              >
-                Chat with us on WhatsApp →
-              </a>
-
+              {/* Close Button */}
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full text-center text-xs font-semibold text-[#1E2B4D] hover:underline pt-2 cursor-pointer"
+                className="w-full bg-[#1E2B4D] hover:bg-[#151f38] text-white font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm cursor-pointer"
               >
-                Done &amp; Close
+                Close
               </button>
             </div>
           ) : (
-            /* Booking Form: Only 3 fields */
+            /* Booking Form: Hub selector, date, name, phone */
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
               {error && (
                 <div className="p-3 rounded-lg bg-red-50 text-red-800 text-xs border border-red-200">
@@ -202,7 +186,30 @@ export default function BookingModal({
                 </div>
               )}
 
-              {/* 1. Walk Date */}
+              {/* 1. Hub / Trail Selector */}
+              <div>
+                <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
+                  Walking Hub
+                </label>
+                <select
+                  value={hubSlug}
+                  onChange={(e) => {
+                    const newSlug = e.target.value;
+                    setHubSlug(newSlug);
+                    const chosen = hubs.find((h) => h.slug === newSlug);
+                    if (chosen) setCitySlug(chosen.city);
+                  }}
+                  className="w-full bg-white border border-[#e5e0d8] rounded-lg px-3 py-2 text-sm text-[#1E2B4D] focus:outline-none focus:border-[#1E2B4D] cursor-pointer"
+                >
+                  {hubs.map((h) => (
+                    <option key={h.slug} value={h.slug}>
+                      {h.name} — ₹{h.price.toLocaleString("en-IN")}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 2. Walk Date */}
               <div>
                 <label className="block text-xs font-semibold text-[#1E2B4D] mb-1">
                   Walk Date

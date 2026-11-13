@@ -43,6 +43,13 @@ export async function POST(req: NextRequest) {
     const formattedDate = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
     const bookingId = `SPT-${Math.random().toString(36).substring(2, 7).toUpperCase()}-${Date.now().toString().slice(-4)}`;
 
+    // Prepend a single quote so Google Sheets treats "+91 ..." as a text string instead of a mathematical formula (#ERROR!)
+    const formattedPhone = phone.startsWith("'") ? phone : `'${phone}`;
+
+    const scriptUrl =
+      process.env.GOOGLE_SCRIPT_URL ||
+      process.env.GOOGLE_SHEETS_SCRIPT_URL ||
+      "https://script.google.com/macros/s/AKfycbyh_5aNRfKdRDe_2k1m5dzoEO5Lj9rmcbv053bYxEiqr-yFzTIz1haTICLA4bDQihnE/exec";
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL || process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
     // Replace literal escaped newlines with actual newlines if coming from env string
@@ -51,7 +58,33 @@ export async function POST(req: NextRequest) {
     let syncedToGoogleSheets = false;
     let syncError: string | null = null;
 
-    if (spreadsheetId && clientEmail && privateKey) {
+    // Method 1: Google Apps Script Web App URL (Easiest - 1 URL, no Google Cloud keys)
+    if (scriptUrl) {
+      try {
+        const scriptRes = await fetch(scriptUrl, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            bookingId,
+            timestamp: formattedDate,
+            name,
+            phone: formattedPhone,
+            hubName,
+            city,
+            date,
+            status: "PENDING_CONFIRMATION",
+          }),
+          redirect: "follow",
+        });
+
+        syncedToGoogleSheets = true;
+      } catch (err: unknown) {
+        console.error("Error posting to Google Apps Script:", err);
+        syncError = err instanceof Error ? err.message : "Failed to sync with Google Sheet";
+      }
+    }
+    // Method 2: Google Service Account JWT (Fallback)
+    else if (spreadsheetId && clientEmail && privateKey) {
       try {
         const auth = new google.auth.JWT({
           email: clientEmail,
@@ -61,24 +94,20 @@ export async function POST(req: NextRequest) {
 
         const sheets = google.sheets({ version: "v4", auth });
 
-        // Row structure: [Booking ID, Timestamp (IST), Full Name, Phone Number, Hub Name, City, Travel Date, Time Slot, Travelers, Notes, Status]
+        // Clean row structure matching the actual form fields
         const rowValues = [
           bookingId,
           formattedDate,
           name,
-          phone,
+          formattedPhone,
           hubName,
-          city,
           date,
-          timeSlot,
-          travelers.toString(),
-          notes,
           "PENDING_CONFIRMATION",
         ];
 
         await sheets.spreadsheets.values.append({
           spreadsheetId,
-          range: "Sheet1!A:K",
+          range: "Sheet1!A:G",
           valueInputOption: "USER_ENTERED",
           requestBody: {
             values: [rowValues],

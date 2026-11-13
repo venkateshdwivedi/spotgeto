@@ -25,7 +25,7 @@ export interface Hub {
   teaser: string;
   destinations: string[];
   duration: string;
-  bestTime: string;
+  bestTime?: string;
   price: number;
   featured?: boolean;
   highlights: HubHighlight[];
@@ -59,7 +59,7 @@ export const hubs: Hub[] = [
     ],
     duration: "2.5 – 3 Hours",
     bestTime: "Morning (6:30 AM – 9:30 AM)",
-    price: 1200,
+    price: 500,
     featured: true,
     tags: ["Morning Walk", "Temples", "Ghat Life", "Heritage"],
     highlights: [
@@ -121,8 +121,7 @@ export const hubs: Hub[] = [
       "Kachori Gali",
     ],
     duration: "3 Hours",
-    bestTime: "Morning (7:30 AM – 10:30 AM) or Afternoon (3:30 PM – 6:30 PM)",
-    price: 1400,
+    price: 500,
     featured: false,
     tags: ["Ancient Alleys", "Temples", "Street Food", "Bazaars"],
     highlights: [
@@ -177,7 +176,7 @@ export const hubs: Hub[] = [
     destinations: ["Dhamekh Stupa", "Ashoka Pillar Ruins", "Sarnath Archaeological Museum", "Mulagandha Kuti Vihara", "Deer Park Forest"],
     duration: "3 Hours",
     bestTime: "Morning (8:00 AM – 11:30 AM) or Afternoon (2:00 PM – 5:00 PM)",
-    price: 1600,
+    price: 500,
     featured: false,
     tags: ["Archaeology", "Buddhism 528 BCE", "Ashoka Pillar", "Monastic Silence"],
     highlights: [

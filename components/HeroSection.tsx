@@ -68,7 +68,7 @@ export default function HeroSection() {
                     <span className="text-sm font-semibold text-[#1E2B4D] leading-tight">
                       Varanasi
                     </span>
-                    <span className="text-xs text-[#5f6368] mt-0.5">4 Hubs Open</span>
+                    <span className="text-xs text-[#5f6368] mt-0.5">3 Hubs Open</span>
                   </div>
                   <span className="bg-[#FFC72C] text-[#1E2B4D] text-xs px-2.5 py-0.5 rounded font-semibold">
                     Now Live

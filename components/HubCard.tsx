@@ -11,16 +11,6 @@ export default function HubCard({ hub, onBookNow }: HubCardProps) {
   return (
     <div className="bg-white rounded-xl border border-[#e5e0d8] shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex flex-col justify-between overflow-hidden text-left">
       <div className="p-6 sm:p-7 pb-4">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <span className="text-xs font-semibold text-[#1E2B4D] bg-[#f5f1ea] px-3 py-1 rounded border border-[#e5e0d8]">
-            {hub.spotmateType}
-          </span>
-
-          <span className="text-sm font-semibold text-[#1E2B4D]">
-            from ₹{hub.price.toLocaleString("en-IN")}
-          </span>
-        </div>
-
         <h3 className="font-serif text-xl sm:text-2xl font-semibold text-[#1E2B4D] mb-2 hover:text-[#d97706] transition-colors">
           <Link href={`/hub/${hub.slug}`}>{hub.name}</Link>
         </h3>

@@ -53,8 +53,12 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
                 <span className="font-semibold text-[#1E2B4D]">{city?.name || "Varanasi"}</span>
                 <span>·</span>
                 <span>{hub.duration}</span>
-                <span>·</span>
-                <span>Best at {hub.bestTime}</span>
+                {hub.bestTime && (
+                  <>
+                    <span>·</span>
+                    <span>Best at {hub.bestTime}</span>
+                  </>
+                )}
               </div>
 
               <h1 className="font-serif text-3xl sm:text-4xl lg:text-[44px] font-bold text-[#1E2B4D] tracking-[-0.03em] leading-tight mb-4">
@@ -162,7 +166,7 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
                   onClick={() => setBookingOpen(true)}
                   className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3 px-6 rounded-lg transition-colors text-sm sm:text-base cursor-pointer"
                 >
-                  Book This Walk (₹{hub.price.toLocaleString("en-IN")})
+                  Book Spotmate (₹{hub.price.toLocaleString("en-IN")})
                 </button>
               </div>
             </section>
@@ -183,7 +187,7 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
                 <span className="font-serif text-3xl sm:text-4xl font-bold text-[#1E2B4D]">
                   ₹{hub.price.toLocaleString("en-IN")}
                 </span>
-                <span className="text-xs text-[#5f6368]">/ person · 100% private</span>
+                <span className="text-xs text-[#5f6368]">total · 100% private</span>
               </div>
 
               <div className="space-y-2 mb-6 text-sm text-[#5f6368] font-normal">
@@ -191,10 +195,12 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
                   <span className="text-[#1E2B4D]">·</span>
                   <span>Duration: {hub.duration}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-[#1E2B4D]">·</span>
-                  <span>Best Time: {hub.bestTime}</span>
-                </div>
+                {hub.bestTime && (
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#1E2B4D]">·</span>
+                    <span>Best Time: {hub.bestTime}</span>
+                  </div>
+                )}
                 <div className="flex items-start gap-2">
                   <span className="text-[#1E2B4D]">·</span>
                   <span>Dedicated Spotmate for your private group</span>
@@ -214,7 +220,7 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
                 onClick={() => setBookingOpen(true)}
                 className="w-full bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold py-3.5 px-6 rounded-lg transition-colors text-sm sm:text-base cursor-pointer mb-3"
               >
-                Book This Walk
+                Book Spotmate
               </button>
 
               <p className="text-xs text-center text-[#5f6368]">
@@ -230,7 +236,7 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
       {/* Sticky mobile booking bar at bottom */}
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-[#fcf9f4] border-t border-[#e5e0d8] p-3 sm:hidden flex items-center justify-between gap-3">
         <div>
-          <span className="text-[11px] text-[#5f6368] block">Price per person</span>
+          <span className="text-[11px] text-[#5f6368] block">Total price</span>
           <span className="font-serif text-lg font-bold text-[#1E2B4D]">
             ₹{hub.price.toLocaleString("en-IN")}
           </span>
@@ -240,7 +246,7 @@ function HubDetailContent({ hub, city }: HubClientViewProps) {
           onClick={() => setBookingOpen(true)}
           className="bg-[#FFC72C] hover:bg-[#F5BD1F] text-[#1E2B4D] font-semibold text-xs py-2 px-4 rounded-lg transition-colors cursor-pointer"
         >
-          Book This Walk
+          Book Spotmate
         </button>
       </div>
 
